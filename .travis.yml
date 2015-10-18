@@ -15,7 +15,7 @@ env:
   - DJANGO=1.8
   - DJANGO=master
 matrix:
-  exclude:
+  allow_failures:
     - env: DJANGO=master
     - python: "3.5"
 
