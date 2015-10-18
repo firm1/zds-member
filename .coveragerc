@@ -1,15 +1,10 @@
 [run]
-source = zds
+source = member
 branch = True
 
 [report]
 
 omit =
-    */tests/*
-    tests.py
-    */factories.py
-    */wsgi.py
-    */migrations/*
+    factories.py
+    migrations/*
     */.tox/*
-    setup.py
-    *settings_test*
