@@ -2,7 +2,7 @@
 
 from django.conf.urls import patterns, url
 
-from views import MemberList, MemberDetail, UpdateMember, UpdatePasswordMember, \
+from member.views import MemberList, MemberDetail, UpdateMember, UpdatePasswordMember, \
     UpdateUsernameEmailMember, RegisterView, SendValidationEmailView
 
 urlpatterns = patterns('',
