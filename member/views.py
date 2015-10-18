@@ -754,14 +754,14 @@ def settings_promote(request, user_pk):
 
     if request.method == "POST":
         form = PromoteMemberForm(request.POST)
-        data = dict(form.data.iterlists())
+        data = dict(form.data.lists())
 
         groups = Group.objects.all()
         usergroups = user.groups.all()
 
         if 'groups' in data:
             for group in groups:
-                if unicode(group.id) in data['groups']:
+                if str(group.id) in data['groups']:
                     if group not in usergroups:
                         user.groups.add(group)
                         messages.success(request, _(u'{0} appartient maintenant au groupe {1}.')
