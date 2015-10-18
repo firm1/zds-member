@@ -21,7 +21,7 @@ session = PipSession()
 setup(
     name='zds',
     version='0.1.0',
-    packages=['zds-member'],
+    packages=['member'],
     include_package_data=True,
     license='GPLv3',
     description='Django user module implemented with Django framework and Python 2.',

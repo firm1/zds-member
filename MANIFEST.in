@@ -1,0 +1,6 @@
+include LICENSE
+include COPYING
+include *.txt *.ini *.cfg *.rst *md
+recursive-include member *
+recursive-exclude member *.pyc *.pyo
+recursive-include doc *
