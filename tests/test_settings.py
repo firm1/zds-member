@@ -1,5 +1,3 @@
-from django.utils.http import urlquote
-
 DEBUG = True
 ROOT_URLCONF = 'member.urls'
 LOGIN_URL = '/connexion'
@@ -55,4 +53,3 @@ DATABASES = {
 
 SITE_ID = 1
 SECRET_KEY = "notasecret"
-
