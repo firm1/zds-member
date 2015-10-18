@@ -20,8 +20,9 @@ matrix:
     - python: "3.5"
 
 install:
-  - pip install tox coveralls
+  - pip install tox coveralls codecov
 script:
   - tox -e py${TRAVIS_PYTHON_VERSION//[.]/}-$DJANGO
 after_script:
   - coveralls
+  - codecov

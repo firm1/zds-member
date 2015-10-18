@@ -1,5 +1,8 @@
 # Zds Member
 
+[![Build Status](https://travis-ci.org/firm1/zds-member.svg?branch=master)](https://travis-ci.org/firm1/zds-member)
+[![codecov.io](https://codecov.io/github/firm1/zds-member/coverage.svg?branch=master)](https://codecov.io/github/firm1/zds-member?branch=master)
+
 Zds Member it's a fork of [zds-site](https://github.com/zestedesavoir/zds-site) member app to make a reusable application.
 
 ## zds-member
