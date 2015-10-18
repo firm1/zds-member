@@ -1,0 +1,27 @@
+{% extends "member/base.html" %}
+{% load i18n %}
+
+
+{% block title %}
+    {% trans "La modification du mot de passe a été effectuée" %}
+{% endblock %}
+
+
+
+{% block headline %}
+    {% trans "La modification du mot de passe a été effectuée" %}
+{% endblock %}
+
+
+
+{% block breadcrumb %}
+    <li>{% trans "Nouveau mot de passe" %}</li>
+{% endblock %}
+
+
+
+{% block content %}
+    <p>
+        {% trans "Votre mot de passe a bien été modifié, vous pouvez dès maintenant" %} <a href="{% url "member.views.login_view" %}">{% trans "vous connecter" %}</a>.
+    </p>
+{% endblock %}

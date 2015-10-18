@@ -1,0 +1,229 @@
+{% load staticfiles %}
+{% load profile %}
+{% load date %}
+{% load set %}
+{% load captureas %}
+{% load i18n %}
+
+
+
+<!DOCTYPE html>
+<html class="no-js enable-mobile-menu wf-active" lang="fr">
+<head>
+    <meta charset="utf-8">
+
+    <title>
+        {% captureas title %}
+            {% captureas title_blocks %}
+                {% block title %}{% endblock %}
+                {% block title_base %}{% endblock %}
+            {% endcaptureas %}
+            {% if title_blocks %}
+                {{ title_blocks|safe }}
+                &bull;
+            {% endif %}
+            {{app.site.litteral_name}}
+        {% endcaptureas %}
+        {{ title|safe }}
+    </title>
+
+    <meta name="language" content="fr">
+    <meta http-equiv="content-language" content="fr">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0">
+
+
+    {# Description #}
+    {% captureas description %}
+        {% block description %}
+            {{app.site.long_description}}
+        {% endblock %}
+    {% endcaptureas %}
+    <meta name="description" content="{{ description|safe }}">
+
+
+    {% captureas meta_image %}
+        {{ app.site.dns }}{% block meta_image %}{% spaceless %}
+            {% static "images/apple-touch-icon-144x144-precomposed.png" %}
+        {% endspaceless %}{% endblock %}
+    {% endcaptureas %}
+
+
+    {# OpenGraph #}
+    <meta property="og:site_name" content="{{app.site.litteral_name}}">
+    <meta property="og:title" content="{{ title|safe }}">
+    <meta property="og:url" content="{{app.site.url}}{{ request.path }}">
+    <meta property="og:language" content="fr_FR">
+    <meta property="og:image:url" content="http://{{ meta_image }}">
+    <meta property="og:image:secure_url" content="https://{{ meta_image }}">
+    {% block opengraph %}
+        <meta property="og:type" content="website">
+    {% endblock %}
+
+
+    {# Twitter cards #}
+    <meta property="twitter:domain" content="{{app.site.url}}/">
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="{{app.site.url}}{{ request.path }}">
+    <meta property="twitter:title" content="{{ title|safe }}">
+    <meta property="twitter:description" content="{{ description|safe }}">
+    <meta property="twitter:site" content="@{{app.site.name}}">
+    <meta property="twitter:creator" content="@{% block twitter_creator %}{{app.site.name}}{% endblock %}">
+    <meta property="twitter:image" content="http://{{ meta_image }}">
+
+
+    {# Stylesheets #}
+    {% if debug %}
+        <link rel="stylesheet" href="{% static "css/main.css" %}">
+    {% else %}
+        <link rel="stylesheet" href="{% static "css/main.min.css" %}">
+    {% endif %}
+
+    {# Webfont async loading #}
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700|Source+Code+Pro:400,700|Merriweather:400,700' rel='stylesheet' type='text/css'>
+
+
+    {% block extra_css %}
+    {% endblock %}
+
+    {# favicons #}
+    <link rel="shortcut icon" type="image/png" href="{% static "images/favicon.png" %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static "images/apple-touch-icon-144x144-precomposed.png" %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static "images/apple-touch-icon-114x114-precomposed.png" %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static "images/apple-touch-icon-72x72-precomposed.png" %}">
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static "images/apple-touch-icon-57x57-precomposed.png" %}">
+    <link rel="apple-touch-icon" href="{% static "images/apple-touch-icon-precomposed.png" %}">
+    <link rel="apple-touch-icon" href="{% static "images/apple-touch-icon.png" %}">
+
+
+    {# Fullsceen on iOS #}
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+</head>
+<body class="{% block body_class %}{% endblock %}"
+      itemscope
+      itemtype="http://schema.org/WebPage"
+>
+    <!--[if lt IE 9]>
+        <p class="chromeframe">Vous utilisez un navigateur <strong>dépassé</strong>. Merci de <a href="http://browsehappy.com/">mettre à jour celui-ci</a> pour améliorer votre expérience.</p>
+    <![endif]-->
+
+    <div class="mobile-menu" id="mobile-menu"></div>
+
+
+    <div class="page-container">
+
+        <div class="header-container">
+            <header class="clearfix">
+                <div class="wrapper">
+                    {# Logbox #}
+                    <div class="logbox header-right {% if not user.is_authenticated %}unlogged{% endif %}">
+                        {% if user.is_authenticated %}
+
+                            <div>
+                                {% with profile=user.profile %}
+                                    <a href="{% url "member-detail" user.username %}"
+                                       id="my-account"
+                                       class="my-account mobile-menu-link mobile-menu-bloc dont-click-if-sidebar"
+                                       title="{% trans 'Mon profil' %}"
+                                       data-title="{% trans 'Mon profil' %}"
+
+                                       {% if not perms.forum.change_post %}
+                                           data-active="open-my-account"
+                                       {% endif %}
+                                    >
+                                        <img src="{{ profile.get_avatar_url }}" alt="" class="avatar">
+                                        <span class="username label">{{ user.username }}</span>
+                                    </a>
+                                {% endwith %}
+
+                                <div class="dropdown my-account-dropdown mobile-menu-bloc mobile-all-links" data-title="{% trans 'Mon compte' %}">
+                                    <span class="dropdown-title">{{ user.username|truncatechars:25 }}</span>
+
+                                    <ul class="dropdown-list">
+                                        <li>
+                                            <a href="{% url "member-detail" user.username %}">{% trans "Mon profil" %}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url "update-member" %}">{% trans "Paramètres" %}</a>
+                                        </li>
+
+                                        <li>
+                                            <form
+                                                method="post"
+                                                action="{% url "member.views.logout_view" %}"
+                                            >
+                                                {% csrf_token %}
+                                                <button type="submit">{% trans "Déconnexion" %}</button>
+                                             </form>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                        {% else %} {# Not logged #}
+                            <a href="{% url "member.views.login_view" %}?next={{ request.path }}">{% trans "Connexion" %}</a>
+                            <a href="{% url "register-member" %}">{% trans "Inscription" %}</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </header>
+        </div>
+
+
+
+        <div class="main-container">
+            {% block doc_api %}
+                <div class="main wrapper clearfix">
+                    <main class="content-container" role="main" id="content">
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert-box {{ message.tags }}">
+                                    <span>{{ message }}</span>
+                                    <a href="#close-alert-box" class="close-alert-box ico-after cross white">{% trans "Masquer l'alerte" %}</a>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        {% block content_out %}
+                            {% captureas schema %}
+                                {% block schema %}{% endblock %}
+                            {% endcaptureas %}
+                            <section class="content-wrapper" {{ schema|safe }}>
+                                <h1 {% if schema %}itemprop="name"{% endif %}>
+                                    {% block headline %}{% endblock %}
+                                </h1>
+
+                                {% captureas headlinesub %}
+                                    {% block headline_sub %}{% endblock %}
+                                {% endcaptureas %}
+
+                                {% if headlinesub %}
+                                    <h2 class="subtitle" {% if schema %}itemprop="description"{% endif %}>{{ headlinesub|safe }}</h2>
+                                {% endif %}
+
+                                {% block content %}{% endblock %}
+                            </section>
+                        {% endblock %}
+                    </main>
+
+                    {% block sidebar %}{% endblock %}
+                </div>
+            {% endblock %}
+        </div>
+
+
+
+        <footer class="page-footer">
+                    {% block footer %}{% endblock %}
+        </footer>
+    </div>
+
+
+    {# Javascript stuff start #}
+    {% block extra_js %}
+    {% endblock %}
+
+
+</body>
+</html>

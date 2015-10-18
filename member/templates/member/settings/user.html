@@ -1,0 +1,26 @@
+{% extends "member/settings/base.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+
+{% block title %}
+   {% trans "Pseudo et courriel" %}
+{% endblock %}
+
+
+
+{% block breadcrumb %}
+    <li>{% trans "Pseudo et courriel" %}</li>
+{% endblock %}
+
+
+
+{% block headline %}
+    {% trans "Pseudo et courriel" %}
+{% endblock %}
+
+
+
+{% block content %}
+    {% crispy form %}
+{% endblock %}

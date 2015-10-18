@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+
+{% block title_base %}
+   {% trans "Paramètres" %}
+{% endblock %}
+
+
+
+{% block breadcrumb_base %}
+    <li><a href="{% url "update-member" %}">{% trans "Paramètres" %}</a></li>
+{% endblock %}
+
+
+
+{% block headline %}
+    {% trans "Paramètres" %}
+{% endblock %}
+
+
+
+{% block sidebar %}
+    <aside class="sidebar mobile-menu-hide">
+        <div class="mobile-menu-bloc mobile-all-links" data-title="Navigation">
+            <h3>{% trans "Navigation" %}</h3>
+            <ul>
+                <li><a href="{% url "update-member" %}">{% trans "Mon profil" %}</a></li>
+                <li><a href="{% url "update-password-member" %}">{% trans "Mon compte" %}</a></li>
+                <li><a href="{% url "update-username-email-member" %}">{% trans "Pseudo et courriel" %}</a></li>
+				<li><a href="{% url "member.views.warning_unregister" %}">{% trans "Se désinscrire" %}</a></li>
+            </ul>
+        </div>
+    </aside>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "member/base.html" %}
+{% load i18n %}
+
+
+{% block title %}
+    {% trans "Liste des membres" %}
+{% endblock %}
+
+
+
+{% block breadcrumb %}
+    <li>{% trans "Liste des membres" %}</li>
+{% endblock %}
+
+
+
+{% block headline %}
+    {% trans "Liste des membres" %}
+{% endblock %}
+
+
+
+{% block content %}
+    <p>
+        {% trans "Sur cette page vous pourrez trouver la liste des membres inscrits au site (actuellement" %} {{ paginator.count }} {% trans "membres" %}).
+    </p>
+
+
+    {% include "misc/paginator.html" with position="top" %}
+
+    <div class="authors">
+        <ul>
+            {% for member in members %}
+                <li>
+                    {% include "misc/member_item.part.html" with avatar=True %}
+                </li>
+            {% empty %}
+                <li>
+                    {% trans "Aucun membre pour le moment." %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% include "misc/paginator.html" with position="bottom" %}
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "member/settings/base.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+
+{% block title %}
+   {% trans "Mon compte" %}
+{% endblock %}
+
+
+
+{% block breadcrumb %}
+    <li>{% trans "Mon Compte" %}</li>
+{% endblock %}
+
+
+
+{% block headline %}
+    {% trans "Mon compte" %}
+{% endblock %}
+
+
+
+{% block content %}
+    {% crispy form %}
+{% endblock %}

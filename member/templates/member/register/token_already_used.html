@@ -1,0 +1,31 @@
+{% extends "member/register/base.html" %}
+{% load i18n %}
+
+
+{% block title %}
+    {% trans "Compte déjà activé" %}
+{% endblock %}
+
+
+
+{% block headline %}
+    {% trans "Compte déjà activé" %}
+{% endblock %}
+
+
+
+{% block breadcrumb %}
+    <li><a href="{% url "register-member" %}">{% trans "Inscription" %}</a></li>
+    <li>{% trans "Déjà activé" %}</li>
+{% endblock %}
+
+
+
+{% block content %}
+    <p>
+        {% url "member.views.forgot_password" as url_forgot %}
+        {% blocktrans %}
+            Votre email a déjà été activé. Si vous avez oublié votre mot de passe, vous pouvez le retrouver <a href="{{url_forgot}}">ici</a>.
+        {% endblocktrans %}
+    </p>
+{% endblock %}
