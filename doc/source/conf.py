@@ -14,6 +14,7 @@
 
 import sys
 import os
+from django.conf import settings
 
 # Check if this is a readthedocs.org's build or not
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
@@ -28,7 +29,7 @@ if not on_rtd:
 #sys.path.insert(0, os.path.abspath('.'))
 
 sys.path.insert(0, os.path.abspath('../../'))  # add modules to python search path
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'zds.settings')   # Django should use OUR settings also with SPHINX
+settings.configure()
 
 import django
 django.setup()
@@ -63,8 +64,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Zeste de Savoir'
-copyright = u'2015, zestedesavoir'
+project = u'Zds Member'
+copyright = u'2015, zds-member'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -200,7 +201,7 @@ if not on_rtd:
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'ZesteDeSavoirdoc'
+htmlhelp_basename = 'ZdsMemberdoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -225,7 +226,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'ZesteDeSavoir.tex', u'Zeste de Savoir Documentation',
+  ('index', 'ZdsMemberdoc.tex', u'Zds member Documentation',
    u'firm1', 'manual'),
 ]
 
@@ -255,8 +256,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'zestedesavoir', u'Documentation Zeste de Savoir',
-     [u'zestedesavoir'], 1)
+    ('index', 'zds-member', u'Documentation Zds Member',
+     [u'zds-member'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -269,8 +270,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'ZesteDeSavoir', u'Documentation Zeste de Savoir',
-   u'zestedesavoir', 'ZesteDeSavoir', 'Description en ligne du projet.',
+  ('index', 'Zds Member', u'Documentation Zds Member',
+   u'zds-member', 'ZdsMember', 'Description en ligne du projet.',
    'Miscellaneous'),
 ]
 

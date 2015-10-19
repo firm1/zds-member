@@ -1,23 +1,18 @@
-================================
-Documentation de Zeste De Savoir
-================================
+========================
+Zds Member Documentation
+========================
 
-Zeste de Savoir est un site internet communautaire codé à l'aide du framework Django 1.7 et de Python 2.7
+Zds Member it's a fork of zds-site member app to make a reusable application.
 
-`Voir l'instance en ligne <https://zestedesavoir.com>`_
+`Github <https://github.com/firm1/zds-member>`_
 
-`Voir notre dépôt Github <https://github.com/zestedesavoir/zds-site>`_
-
-Sommaire
+Summary
 ========
 
 .. toctree::
    :maxdepth: 2
 
    install
-   workflow
-   back-end
-   back-end-code
-   front-end
+   features
+   reference
    api
-   utils

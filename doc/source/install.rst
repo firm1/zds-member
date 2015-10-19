@@ -2,10 +2,31 @@
 Installation
 ============
 
-Si vous voulez installer et démarrer une instance locale de ZdS, vous devez cliquer sur le lien correspondant à votre système d'exploitation.
+Install the development version::
 
-.. toctree::
-   :maxdepth: 2
-   :glob:
+    pip install zds-member
 
-   install/*
+Add ``member`` to your ``INSTALLED_APPS`` setting::
+
+    INSTALLED_APPS = (
+        # ...
+        "member",
+        # ...
+    )
+
+See the list of :ref:`settings` to modify the default behavior of
+zds-member and make adjustments for your website.
+
+Add ``member.urls`` to your URLs definition::
+
+    urlpatterns = patterns("",
+        ...
+        url(r"^members/", include("member.urls")),
+        ...
+    )
+
+
+Once everything is in place make sure you run ``syncdb`` (Django 1.4 and 1.6)
+or ``migrate`` (Django 1.7) to modify the database with the ``member`` app
+models.
+
