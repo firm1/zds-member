@@ -19,12 +19,12 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 session = PipSession()
 
 setup(
-    name='zds',
-    version='0.1.0',
+    name='zds-member',
+    version='0.1.1',
     packages=['member'],
     include_package_data=True,
     license='GPLv3',
-    description='Django user module implemented with Django framework and Python 2.',
+    description='Django user module implemented with Django framework',
     long_description=README,
     url='https://github.com/firm1/zds-member',
     classifiers=[
