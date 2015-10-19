@@ -2,7 +2,7 @@
 import os
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from member.api.validators import Validator
+from member.utils.api.validators import Validator
 from member.conf import settings
 
 BASE_DIR = settings.BASE_DIR

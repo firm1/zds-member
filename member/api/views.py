@@ -9,7 +9,7 @@ from rest_framework_extensions.cache.decorators import cache_response
 from rest_framework_extensions.etag.decorators import etag
 from rest_framework_extensions.key_constructor import bits
 from rest_framework_extensions.key_constructor.constructors import DefaultKeyConstructor
-from member.api.DJRF3xPaginationKeyBit import DJRF3xPaginationKeyBit
+from member.utils.api.DJRF3xPaginationKeyBit import DJRF3xPaginationKeyBit
 
 from member.api.serializers import ProfileListSerializer, ProfileCreateSerializer, \
     ProfileDetailSerializer, ProfileValidatorSerializer
