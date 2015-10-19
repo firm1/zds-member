@@ -1,8 +1,8 @@
 # coding: utf-8
 
-from member.conf.urls import patterns, url
+from django.conf.urls import patterns, url
 
-from zds.member.api.views import MemberListAPI, MemberDetailAPI, \
+from member.api.views import MemberListAPI, MemberDetailAPI, \
     MemberDetailReadingOnly, MemberDetailBan, MemberMyDetailAPI
 
 urlpatterns = patterns('',

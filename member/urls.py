@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
 
 from member.views import MemberList, MemberDetail, UpdateMember, UpdatePasswordMember, \
     UpdateUsernameEmailMember, RegisterView, SendValidationEmailView
@@ -38,3 +38,10 @@ urlpatterns = patterns('',
                        url(r'^desinscrire/valider/$', 'member.views.unregister'),
                        url(r'^desinscrire/avertissement/$', 'member.views.warning_unregister')
                        )
+
+# API
+urlpatterns += patterns('',
+                        url(r'^api-doc/', include('rest_framework_swagger.urls')),
+                        url(r'^oauth2/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+                        url(r'^api/', include('member.api.urls')),
+                        )

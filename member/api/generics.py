@@ -6,9 +6,9 @@ from rest_framework.generics import CreateAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from zds.member.api.permissions import IsStaffUser
-from zds.member.api.serializers import ProfileSanctionSerializer
-from zds.member.models import Profile
+from member.api.permissions import IsStaffUser
+from member.api.serializers import ProfileSanctionSerializer
+from member.models import Profile
 
 
 class CreateDestroyMemberSanctionAPIView(CreateAPIView, DestroyAPIView):

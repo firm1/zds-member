@@ -39,6 +39,67 @@ DEFAULTS = {
             'folding_limit': 4
         }
     },
+    "REST_FRAMEWORK": {
+    # If the pagination isn't specify in the API, its configuration is
+    # specified here.
+        'PAGINATE_BY': 10,                 # Default to 10
+        'PAGINATE_BY_PARAM': 'page_size',  # Allow client to override, using `?page_size=xxx`.
+        'MAX_PAGINATE_BY': 100,             # Maximum limit allowed when using `?page_size=xxx`.
+        # Active OAuth2 authentication.
+        'DEFAULT_AUTHENTICATION_CLASSES': (
+            'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+            'rest_framework.authentication.SessionAuthentication',
+        ),
+        'DEFAULT_PARSER_CLASSES': (
+            'rest_framework.parsers.JSONParser',
+            'rest_framework_xml.parsers.XMLParser',
+            'rest_framework.parsers.FormParser',
+            'rest_framework.parsers.MultiPartParser',
+        ),
+        'DEFAULT_RENDERER_CLASSES': (
+            'rest_framework.renderers.JSONRenderer',
+            'rest_framework_xml.renderers.XMLRenderer',
+            'rest_framework.renderers.BrowsableAPIRenderer',
+        ),
+        'DEFAULT_THROTTLE_CLASSES': (
+            'rest_framework.throttling.AnonRateThrottle',
+            'rest_framework.throttling.UserRateThrottle'
+        ),
+        'DEFAULT_THROTTLE_RATES': {
+            'anon': '60/hour',
+            'user': '2000/hour'
+        }
+    },
+    "REST_FRAMEWORK_EXTENSIONS": {
+        # If the cache isn't specify in the API, the time of the cache
+        # is specified here in seconds.
+        'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 15
+    },
+    "SWAGGER_SETTINGS": {
+        'enabled_methods': [
+            'get',
+            'post',
+            'put',
+            'delete'
+        ]
+    },
+    "CORS_ORIGIN_ALLOW_ALL": True,
+    "CORS_ALLOW_METHODS": [
+        'GET',
+        'POST',
+        'PUT',
+        'DELETE',
+    ],
+    "CORS_ALLOW_HEADERS": [
+        'x-requested-with',
+        'content-type',
+        'accept',
+        'origin',
+        'authorization',
+        'x-csrftoken',
+        'x-data-format'
+    ]
+
 }
 
 

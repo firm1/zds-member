@@ -9,16 +9,16 @@ from rest_framework_extensions.cache.decorators import cache_response
 from rest_framework_extensions.etag.decorators import etag
 from rest_framework_extensions.key_constructor import bits
 from rest_framework_extensions.key_constructor.constructors import DefaultKeyConstructor
-from zds.api.DJRF3xPaginationKeyBit import DJRF3xPaginationKeyBit
+from member.api.DJRF3xPaginationKeyBit import DJRF3xPaginationKeyBit
 
-from zds.member.api.serializers import ProfileListSerializer, ProfileCreateSerializer, \
+from member.api.serializers import ProfileListSerializer, ProfileCreateSerializer, \
     ProfileDetailSerializer, ProfileValidatorSerializer
-from zds.member.api.permissions import IsOwnerOrReadOnly
-from zds.member.api.generics import CreateDestroyMemberSanctionAPIView
-from zds.member.commons import TemporaryReadingOnlySanction, ReadingOnlySanction, \
+from member.api.permissions import IsOwnerOrReadOnly
+from member.api.generics import CreateDestroyMemberSanctionAPIView
+from member.commons import TemporaryReadingOnlySanction, ReadingOnlySanction, \
     DeleteReadingOnlySanction, TemporaryBanSanction, BanSanction, DeleteBanSanction, \
     ProfileCreate, TokenGenerator
-from zds.member.models import Profile
+from member.models import Profile
 
 
 class PagingSearchListKeyConstructor(DefaultKeyConstructor):
