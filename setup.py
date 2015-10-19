@@ -39,7 +39,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
-    test_suite="runtests",
+    test_suite="runtests.runtests",
     install_requires=[str(pkg.req) for pkg in parse_requirements('requirements-dev.txt', session=session)],
     tests_require=[str(pkg.req) for pkg in parse_requirements('requirements-dev.txt', session=session)],
 )
