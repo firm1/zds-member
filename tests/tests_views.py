@@ -18,7 +18,6 @@ BASE_DIR = settings.BASE_DIR
 ZDS_MEMBER = settings.ZDS_MEMBER
 
 
-@override_settings(MEDIA_ROOT=os.path.join(BASE_DIR, 'media-test'))
 class MemberTests(TestCase):
 
     def setUp(self):
@@ -121,6 +120,14 @@ class MemberTests(TestCase):
             password='hostel77')
         self.assertEqual(login_check, True)
 
+        # check update url is available
+        result = self.client.get(
+            reverse('update-member'),
+            follow=True
+        )
+        self.assertEqual(result.status_code, 200)
+
+        # submit update
         result = self.client.post(
             reverse('update-member'),
             {'avatar_url': u"http://zestedesavoir.com/myavatar.png",
@@ -315,6 +322,26 @@ class MemberTests(TestCase):
             follow=False
         )
         self.assertEqual(result.status_code, 200)
+        
+        # check update is considered
+        prof = ProfileFactory()
+        old_username = prof.user.username
+        result = self.client.post(
+            reverse('member.views.settings_mini_profile', args=[prof.user.username]),
+            {'avatar_url': u"http://zestedesavoir.com/myavatar.png",
+             'site': u'http://zestedesavoir.com',
+             'sign': u'My sign',
+             'biography': u'My bio'},
+            follow=False
+        )
+        # get new member's infos
+        new_prof = Profile.objects.get(pk=prof.pk)
+        # check asserts
+        self.assertEqual(new_prof.user.username, old_username)
+        self.assertEqual(new_prof.site, u'http://zestedesavoir.com')
+        self.assertEqual(new_prof.sign, u'My sign')
+        self.assertEqual(new_prof.avatar_url, u"http://zestedesavoir.com/myavatar.png")
+        self.assertEqual(new_prof.biography, u'My bio')
 
     def test_login(self):
         """
@@ -851,7 +878,3 @@ class MemberTests(TestCase):
         # Now access without post
         result = self.client.get(reverse('member.views.modify_karma'), follow=False)
         self.assertEqual(result.status_code, 405)
-
-    def tearDown(self):
-        if os.path.isdir(settings.MEDIA_ROOT):
-            shutil.rmtree(settings.MEDIA_ROOT)
