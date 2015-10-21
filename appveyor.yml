@@ -94,4 +94,4 @@ install:
 build: off
 
 test_script:
-  - "%PYTHON%/Scripts/tox -e %TOX_ENV%-%DJANGO%"
+  - "%PYTHON%/Scripts/tox -e %TOX_ENV%win-%DJANGO%"

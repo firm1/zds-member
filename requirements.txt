@@ -1,7 +1,7 @@
 # Explicit dependencies (references in code)
 django-crispy-forms==1.4.0
 django-email-obfuscator
-pygeoip==0.3.2
+https://github.com/firm1/pygeoip/archive/master.zip
 https://github.com/zestedesavoir/Python-ZMarkdown/archive/2.6.0-zds.7.zip
 
 # Api dependencies
