@@ -1,13 +1,10 @@
 # coding: utf-8
 
-import os
-import shutil
 from member.conf import settings
 from django.contrib.auth.models import User, Group
 from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from django.test.utils import override_settings
 
 from member.factories import ProfileFactory, StaffProfileFactory, NonAsciiProfileFactory, UserFactory
 from member.models import Profile, KarmaNote, TokenForgotPassword
@@ -322,7 +319,7 @@ class MemberTests(TestCase):
             follow=False
         )
         self.assertEqual(result.status_code, 200)
-        
+
         # check update is considered
         prof = ProfileFactory()
         old_username = prof.user.username
@@ -520,6 +517,13 @@ class MemberTests(TestCase):
         self.assertEqual(ban.text, 'Texte de test pour LS')
         # self.assertEquals(len(mail.outbox), 1)
 
+        # get on profile page of read only user
+        result = self.client.get(
+            reverse('member-detail', args=[user_ls.user.username]),
+            follow=False
+        )
+        self.assertEqual(result.status_code, 200)
+
         # Test: Un-LS
         result = self.client.post(
             reverse(
@@ -558,6 +562,13 @@ class MemberTests(TestCase):
         self.assertEqual(ban.text, u'Texte de test pour LS TEMP')
         # self.assertEquals(len(mail.outbox), 3)
 
+        # get on profile page of temporary read only user
+        result = self.client.get(
+            reverse('member-detail', args=[user_ls_temp.user.username]),
+            follow=False
+        )
+        self.assertEqual(result.status_code, 200)
+
         # Test: BAN
         user_ban = ProfileFactory()
         result = self.client.post(
@@ -575,6 +586,13 @@ class MemberTests(TestCase):
         self.assertEqual(ban.type, u'Ban définitif')
         self.assertEqual(ban.text, u'Texte de test pour BAN')
         # self.assertEquals(len(mail.outbox), 4)
+
+        # get on profile page of ban user
+        result = self.client.get(
+            reverse('member-detail', args=[user_ban.user.username]),
+            follow=False
+        )
+        self.assertEqual(result.status_code, 200)
 
         # Test: un-BAN
         result = self.client.post(
@@ -614,6 +632,13 @@ class MemberTests(TestCase):
         self.assertEqual(ban.type, u'Ban Temporaire')
         self.assertEqual(ban.text, u'Texte de test pour BAN TEMP')
         # self.assertEquals(len(mail.outbox), 6)
+
+        # get on profile page of temporary ban user
+        result = self.client.get(
+            reverse('member-detail', args=[user_ban.user.username]),
+            follow=False
+        )
+        self.assertEqual(result.status_code, 200)
 
     def test_failed_bot_sanctions(self):
 

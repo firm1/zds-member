@@ -14,7 +14,6 @@ from crispy_forms.layout import HTML, Layout, \
 
 from member.models import Profile, KarmaNote
 from member.validators import ProfileUsernameValidator, ProfileEmailValidator
-from member.utils.forms import CommonLayoutModalText
 
 # Max password length for the user.
 # Unlike other fields, this is not the length of DB field
@@ -618,7 +617,6 @@ class KarmaForm(forms.Form):
         self.helper.form_method = 'post'
 
         self.helper.layout = Layout(
-            CommonLayoutModalText(),
             Field('warning'),
             Field('points'),
             Hidden('profile_pk', '{{ profile.pk }}'),
