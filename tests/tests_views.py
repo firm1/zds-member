@@ -421,6 +421,50 @@ class MemberTests(TestCase):
         # check if the new user is active.
         self.assertTrue(User.objects.get(username='firm1').is_active)
 
+    def test_register_with_resend_token(self):
+
+        # register a new user.
+        result = self.client.post(
+            reverse('register-member'),
+            {
+                'username': 'firmone',
+                'password': 'flavour',
+                'password_confirm': 'flavour',
+                'email': 'firmone@zestedesavoir.com'},
+            follow=False)
+        self.assertEqual(result.status_code, 200)
+
+        # check email has been sent.
+        self.assertEquals(len(mail.outbox), 1)
+
+        # check if the new user is well inactive.
+        user = User.objects.get(username='firmone')
+        self.assertFalse(user.is_active)
+
+        # send request for reload token
+        token = TokenRegister.objects.get(user=user)
+        result = self.client.get(
+            u"{}?token={}".format(reverse('member.views.generate_token_account'), token.token),
+            follow=True)
+        self.assertEqual(result.status_code, 200)
+
+        # check a new email has been sent at the new user.
+        self.assertEquals(len(mail.outbox), 2)
+
+        # make a request on the link which has been sent in mail to
+        # confirm the registration.
+        token = TokenRegister.objects.get(user=user)
+        result = self.client.get(
+            token.get_absolute_url(),
+            follow=False)
+        self.assertEqual(result.status_code, 200)
+
+        # check a new email has been sent at the new user.
+        # self.assertEquals(len(mail.outbox), 3)
+
+        # check if the new user is active.
+        self.assertTrue(User.objects.get(username='firmone').is_active)
+
     def test_unregister(self):
         """
         To test that unregistering user is working.
