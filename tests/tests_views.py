@@ -947,3 +947,53 @@ class MemberTests(TestCase):
         # Now access without post
         result = self.client.get(reverse('member.views.modify_karma'), follow=False)
         self.assertEqual(result.status_code, 405)
+
+    def test_resend_validation_email(self):
+        prof = ProfileFactory()
+        username = prof.user.username
+        email = prof.user.email
+
+        # i need to be disconected
+        self.client.logout()
+
+        # page is available on get request
+        result = self.client.get(
+            reverse('send-validation-email'),
+            follow=True)
+        self.assertEqual(result.status_code, 200)
+
+        # no email if account is actived
+        result = self.client.post(
+            reverse('send-validation-email'),
+            {'email': email},
+            follow=False)
+        self.assertEqual(result.status_code, 200)
+        self.assertEquals(len(mail.outbox), 0)
+
+        # no email if account is actived
+        result = self.client.post(
+            reverse('send-validation-email'),
+            {'username': username},
+            follow=False)
+        self.assertEqual(result.status_code, 200)
+        self.assertEquals(len(mail.outbox), 0)
+
+        # deactive user
+        prof.user.is_active = False
+        prof.user.save()
+
+        # send email if account is deactived
+        result = self.client.post(
+            reverse('send-validation-email'),
+            {'email': email},
+            follow=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertEquals(len(mail.outbox), 1)
+
+        # send email if account is deactived
+        result = self.client.post(
+            reverse('send-validation-email'),
+            {'username': username},
+            follow=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertEquals(len(mail.outbox), 2)

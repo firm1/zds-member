@@ -1,7 +1,7 @@
 Zds Member
 ==========
 
-|Build Status| |codecov.io| |Coverage Status| |PyPi version|
+|Build Status| |Build appveyor| |codecov.io| |Coverage Status| |PyPi version|
 
 Zds Member it’s a fork of `zds-site`_ member app to make a reusable
 application.
@@ -42,6 +42,8 @@ See http://zds-member.readthedocs.org/ for documentation.
 
 .. |Build Status| image:: https://travis-ci.org/firm1/zds-member.svg?branch=master
    :target: https://travis-ci.org/firm1/zds-member
+.. |Build appveyor| image:: https://ci.appveyor.com/api/projects/status/dfoytnaqpuq1yhdk?svg=true
+   :target: https://ci.appveyor.com/project/firm1/zds-member
 .. |codecov.io| image:: https://codecov.io/github/firm1/zds-member/coverage.svg?branch=master
    :target: https://codecov.io/github/firm1/zds-member?branch=master
 .. |Coverage Status| image:: https://coveralls.io/repos/firm1/zds-member/badge.svg?branch=master&service=github

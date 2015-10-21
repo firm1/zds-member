@@ -37,30 +37,6 @@ environment:
       TOX_ENV: "py27"
       DJANGO : 1.8
 
-    - PYTHON: "C:\\Python33"
-      PYTHON_VERSION: "3.3.x" # currently 3.3.5
-      PYTHON_ARCH: "32"
-      TOX_ENV: "py33"
-      DJANGO : 1.7
-    
-    - PYTHON: "C:\\Python33"
-      PYTHON_VERSION: "3.3.x" # currently 3.3.5
-      PYTHON_ARCH: "32"
-      TOX_ENV: "py33"
-      DJANGO : 1.8
-
-    - PYTHON: "C:\\Python33-x64"
-      PYTHON_VERSION: "3.3.x" # currently 3.3.5
-      PYTHON_ARCH: "64"
-      TOX_ENV: "py33"
-      DJANGO : 1.7
-
-    - PYTHON: "C:\\Python33-x64"
-      PYTHON_VERSION: "3.3.x" # currently 3.3.5
-      PYTHON_ARCH: "64"
-      TOX_ENV: "py33"
-      DJANGO : 1.8
-
     - PYTHON: "C:\\Python34"
       PYTHON_VERSION: "3.4.x" # currently 3.4.3
       PYTHON_ARCH: "32"

@@ -247,13 +247,22 @@ class SendValidationEmailView(FormView, TokenGenerator):
 
         if form.is_valid():
             # Fetch the user
-            self.get_user(form.data["username"], form.data["email"])
+            if "username" in form.data:
+                username = form.data["username"]
+            else:
+                username = None
+            if "email" in form.data:
+                email = form.data["email"]
+            else:
+                email = None
+
+            self.get_user(username, email)
 
             # User should not be already active
             if not self.usr.is_active:
                 return self.form_valid(form)
             else:
-                if form.data["username"]:
+                if username is not None:
                     form.errors['username'] = form.error_class([self.get_error_message()])
                 else:
                     form.errors['email'] = form.error_class([self.get_error_message()])
@@ -263,7 +272,7 @@ class SendValidationEmailView(FormView, TokenGenerator):
     def form_valid(self, form):
         # Delete old token
         token = TokenRegister.objects.filter(user=self.usr)
-        if token.count >= 1:
+        if token.count() >= 1:
             token.all().delete()
 
         # Generate new token and send email
