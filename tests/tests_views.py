@@ -508,11 +508,14 @@ class MemberTests(TestCase):
 
         # Empty the test outbox
         mail.outbox = []
+        self.client.logout()
+
+        prof = ProfileFactory()
 
         result = self.client.post(
             reverse('member.views.forgot_password'),
             {
-                'username': self.mas.user.username,
+                'username': prof.user.username,
                 'email': '',
             },
             follow=False)
@@ -523,14 +526,27 @@ class MemberTests(TestCase):
         self.assertEquals(len(mail.outbox), 1)
 
         # clic on the link which has been sent in mail
-        user = User.objects.get(username=self.mas.user.username)
+        user = User.objects.get(username=prof.user.username)
 
         token = TokenForgotPassword.objects.get(user=user)
         result = self.client.get(
             token.get_absolute_url(),
             follow=False)
-
         self.assertEqual(result.status_code, 200, "bad response code for : {}".format(token.get_absolute_url()))
+
+        # send reset password post
+        result = self.client.post(
+            token.get_absolute_url(),
+            {"password": "souris77",
+             "password_confirm": "souris77"},
+            follow=True)
+        self.assertEqual(result.status_code, 200)
+
+        # i can connect with new password
+        login_check = self.client.login(
+            username=prof.user.username,
+            password='souris77')
+        self.assertEqual(login_check, True)
 
     def test_sanctions(self):
         """
