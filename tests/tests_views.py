@@ -110,6 +110,162 @@ class MemberTests(TestCase):
         )
         self.assertEqual(result.status_code, 404)
 
+    def test_update_member_profile_by_himself(self):
+        """
+        To test update member by himself.
+        """
+
+        prof = ProfileFactory()
+        login_check = self.client.login(
+            username=prof.user.username,
+            password='hostel77')
+        self.assertEqual(login_check, True)
+
+        result = self.client.post(
+            reverse('update-member'),
+            {'avatar_url': u"http://zestedesavoir.com/myavatar.png",
+             'site': u'http://zestedesavoir.com',
+             'sign': u'My sign',
+             'biography': u'My bio',
+             'options': ["show_email", "show_sign", "hover_or_click", "email_for_answer"]},
+            follow=True
+        )
+        self.assertEqual(result.status_code, 200)
+
+        # get member's infos
+        new_prof = Profile.objects.get(pk=prof.pk)
+        # check asserts
+        self.assertEqual(new_prof.user.username, prof.user.username)
+        self.assertEqual(new_prof.site, u'http://zestedesavoir.com')
+        self.assertEqual(new_prof.sign, u'My sign')
+        self.assertEqual(new_prof.avatar_url, u"http://zestedesavoir.com/myavatar.png")
+        self.assertEqual(new_prof.biography, u'My bio')
+        self.assertEqual(new_prof.show_email, True)
+        self.assertEqual(new_prof.show_sign, True)
+        self.assertEqual(new_prof.hover_or_click, True)
+        self.assertEqual(new_prof.email_for_answer, True)
+
+    def test_update_member_sign(self):
+        """
+        To test can't update member sign with bad value.
+        """
+
+        prof = ProfileFactory()
+        login_check = self.client.login(
+            username=prof.user.username,
+            password='hostel77')
+        self.assertEqual(login_check, True)
+
+        old_sign = prof.sign
+
+        result = self.client.post(
+            reverse('update-member'),
+            {'sign': "x" * 251},
+            follow=True
+        )
+        self.assertEqual(result.status_code, 200)
+
+        # get member's infos
+        new_prof = Profile.objects.get(pk=prof.pk)
+        # old sign doesn't change
+        self.assertEqual(new_prof.sign, old_sign)
+
+    def test_update_username(self):
+        prof = ProfileFactory()
+        prof_2 = ProfileFactory()
+        login_check = self.client.login(
+            username=prof.user.username,
+            password='hostel77')
+        self.assertEqual(login_check, True)
+
+        # check i can't change username with exist username
+        old_username = prof.user.username
+        result = self.client.post(
+            reverse('update-username-email-member'),
+            {'username': prof_2.user.username},
+            follow=True
+        )
+        self.assertEqual(result.status_code, 200)
+        new_prof = Profile.objects.get(pk=prof.pk)
+        self.assertEqual(new_prof.user.username, old_username)
+
+        # check i can change username with other username
+        result = self.client.post(
+            reverse('update-username-email-member'),
+            {'username': u"my-new-super-username"},
+            follow=True
+        )
+        self.assertEqual(result.status_code, 200)
+        new_prof = Profile.objects.get(pk=prof.pk)
+        self.assertEqual(new_prof.user.username, "my-new-super-username")
+
+    def test_update_email(self):
+        prof = ProfileFactory()
+        prof_2 = ProfileFactory()
+        login_check = self.client.login(
+            username=prof.user.username,
+            password='hostel77')
+        self.assertEqual(login_check, True)
+
+        # check i can't change email with exist email
+        old_email = prof.user.email
+        result = self.client.post(
+            reverse('update-username-email-member'),
+            {'email': prof_2.user.email},
+            follow=True
+        )
+        self.assertEqual(result.status_code, 200)
+        new_prof = Profile.objects.get(pk=prof.pk)
+        self.assertEqual(new_prof.user.email, old_email)
+
+        # check i can't change email with bad formated email
+        result = self.client.post(
+            reverse('update-username-email-member'),
+            {'email': "bad-format@"},
+            follow=True
+        )
+        self.assertEqual(result.status_code, 200)
+        new_prof = Profile.objects.get(pk=prof.pk)
+        self.assertEqual(new_prof.user.email, old_email)
+
+        # check i can't change email with blacklist email provider
+        result = self.client.post(
+            reverse('update-username-email-member'),
+            {'email': "blacklist@example.com"},
+            follow=True
+        )
+        self.assertEqual(result.status_code, 200)
+        new_prof = Profile.objects.get(pk=prof.pk)
+        self.assertEqual(new_prof.user.email, old_email)
+
+        # check i can change username with other username
+        result = self.client.post(
+            reverse('update-username-email-member'),
+            {'email': u"my-new-super-email@yahoor.fr"},
+            follow=True
+        )
+        self.assertEqual(result.status_code, 200)
+        new_prof = Profile.objects.get(pk=prof.pk)
+        self.assertEqual(new_prof.user.email, "my-new-super-email@yahoor.fr")
+
+    def test_update_username_and_password(self):
+        prof = ProfileFactory()
+        login_check = self.client.login(
+            username=prof.user.username,
+            password='hostel77')
+        self.assertEqual(login_check, True)
+
+        result = self.client.post(
+            reverse('update-username-email-member'),
+            {'username': "my-new-super-username",
+             'email': u"my-new-super-email@yahoor.fr"},
+            follow=True
+        )
+        self.assertEqual(result.status_code, 200)
+        new_prof = Profile.objects.get(pk=prof.pk)
+        self.assertEqual(new_prof.user.username, "my-new-super-username")
+        self.assertEqual(new_prof.user.email, "my-new-super-email@yahoor.fr")
+
     def test_profile_page_of_weird_member_username(self):
 
         # create some user with weird username

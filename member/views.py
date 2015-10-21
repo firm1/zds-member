@@ -179,9 +179,9 @@ class UpdateUsernameEmailMember(UpdateMember):
         return form_class(self.request.POST)
 
     def update_profile(self, profile, form):
-        if form.data['username']:
+        if 'username' in form.data:
             profile.user.username = form.data['username']
-        if form.data['email']:
+        if 'email' in form.data:
             if form.data['email'].strip() != '':
                 profile.user.email = form.data['email']
 

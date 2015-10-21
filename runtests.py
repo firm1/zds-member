@@ -11,7 +11,8 @@ def runtests(*test_args):
     django.setup()
     TestRunner = get_runner(settings)
     test_runner = TestRunner()
-    test_args = ["tests"]
+    if len(test_args) == 0:
+        test_args = ["tests"]
     failures = test_runner.run_tests(test_args)
     sys.exit(bool(failures))
 
