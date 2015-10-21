@@ -18,8 +18,7 @@ ZDS_MEMBER = settings.ZDS_MEMBER
 class MemberTests(TestCase):
 
     def setUp(self):
-        settings.EMAIL_BACKEND = \
-            'django.core.mail.backends.locmem.EmailBackend'
+        settings.EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
         self.mas = ProfileFactory()
         ZDS_MEMBER['bot_account'] = self.mas.user.username
         self.anonymous = UserFactory(

@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 
-from zds.member.models import Profile, Ban, TokenRegister, TokenForgotPassword, KarmaNote
+from member.models import Profile, Ban, TokenRegister, TokenForgotPassword, KarmaNote
 
 
 class ProfileAdmin(admin.ModelAdmin):

@@ -8,3 +8,4 @@ omit =
     factories.py
     migrations/*
     */.tox/*
+    */admin.py
