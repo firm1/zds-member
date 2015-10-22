@@ -16,3 +16,4 @@ Summary
    features
    reference
    api
+   python

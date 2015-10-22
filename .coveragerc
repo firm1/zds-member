@@ -9,3 +9,4 @@ omit =
     migrations/*
     */.tox/*
     */admin.py
+    manage.py

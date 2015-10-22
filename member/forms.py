@@ -70,7 +70,7 @@ class LoginForm(forms.Form):
 
 class RegisterForm(forms.Form, ProfileUsernameValidator, ProfileEmailValidator):
     """
-    Form to register a new user.
+    Form to register a new member.
     """
     email = forms.EmailField(
         label=_(u'Adresse courriel'),
@@ -118,6 +118,7 @@ class RegisterForm(forms.Form, ProfileUsernameValidator, ProfileEmailValidator):
     def clean(self):
         """
         Cleans the input data and performs following checks:
+
         - Both passwords are the same
         - Username doesn't exist in database
         - Username is not empty
@@ -126,7 +127,9 @@ class RegisterForm(forms.Form, ProfileUsernameValidator, ProfileEmailValidator):
         - Password is different of username
         - Email address is unique through all users
         - Email provider is not a forbidden one
+
         Forbidden email providers are stored in `forbidden_email_providers.txt` on project root.
+
         :return: Cleaned data, and the error messages if they exist.
         """
         cleaned_data = super(RegisterForm, self).clean()
@@ -238,6 +241,7 @@ class MiniProfileForm(forms.Form):
 class ProfileForm(MiniProfileForm):
     """
     Updates main profile rules:
+
     - Display email address to everybody
     - Display signatures
     - Display menus on hover

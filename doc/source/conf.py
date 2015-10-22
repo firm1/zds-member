@@ -26,7 +26,6 @@ if not on_rtd:
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#sys.path.insert(0, os.path.abspath('.'))
 
 sys.path.insert(0, os.path.abspath('../../'))  # add modules to python search path
 settings.configure()
@@ -49,6 +48,7 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
+    'sphinxcontrib.httpdomain'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -123,7 +123,6 @@ if not on_rtd:
     html_theme = 'sphinx_rtd_theme'
 else:
     html_theme = 'default'
-
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.

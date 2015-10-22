@@ -28,50 +28,43 @@ class Profile(models.Model):
         verbose_name = 'Profil'
         verbose_name_plural = 'Profils'
         permissions = (
-            ("moderation", u"Modérer un membre"),
-            ("show_ip", u"Afficher les IP d'un membre"),
+            ("moderation", u"Moderate membre"),
+            ("show_ip", u"Show member's Ip Adress"),
         )
 
     # Link with standard user is a simple one-to-one link, as recommended in official documentation.
     # See https://docs.djangoproject.com/en/1.6/topics/auth/customizing/#extending-the-existing-user-model
     user = models.OneToOneField(
         User,
-        verbose_name='Utilisateur',
+        verbose_name='User',
         related_name="profile")
 
     last_ip_address = models.CharField(
-        'Adresse IP',
+        'IP Adress',
         max_length=39,
         blank=True,
         null=True)
 
-    site = models.CharField('Site internet', max_length=2000, blank=True)
-    show_email = models.BooleanField('Afficher adresse mail publiquement',
+    site = models.CharField('Web site', max_length=2000, blank=True)
+    show_email = models.BooleanField('Show email adress on public',
                                      default=False)
 
     avatar_url = models.CharField(
-        'URL de l\'avatar', max_length=2000, null=True, blank=True
+        'Avatar url', max_length=2000, null=True, blank=True
     )
 
-    biography = models.TextField('Biographie', blank=True)
+    biography = models.TextField('Biography', blank=True)
 
     karma = models.IntegerField('Karma', default=0)
 
-    sign = models.TextField('Signature', max_length=250, blank=True)
+    sign = models.TextField('Sign', max_length=250, blank=True)
 
-    show_sign = models.BooleanField('Voir les signatures', default=True)
+    show_sign = models.BooleanField('Show signs', default=True)
 
     # TODO: Change this name. This is a boolean: "true" is "hover" or "click" ?!
-    hover_or_click = models.BooleanField('Survol ou click ?', default=False)
+    hover_or_click = models.BooleanField('Hover or clic ?', default=False)
 
     email_for_answer = models.BooleanField('Envoyer pour les réponse MP', default=False)
-
-    # SdZ tutorial IDs separated by columns (:).
-    # TODO: bad field name (singular --> should be plural), manually handled multi-valued field.
-    sdz_tutorial = models.TextField(
-        'Identifiant des tutos SdZ',
-        blank=True,
-        null=True)
 
     can_read = models.BooleanField('Possibilité de lire', default=True)
     end_ban_read = models.DateTimeField(
@@ -97,7 +90,13 @@ class Profile(models.Model):
         return self.user.username
 
     def is_private(self):
-        """checks the user can display his stats"""
+        """
+        Check if the user belong to the bot's group or not
+
+        :return: ``True`` if user belong to the bot's group, ``False`` else.
+
+        :rtype: bool
+        """
         user_groups = self.user.groups.all()
         user_group_names = [g.name for g in user_groups]
         return settings.ZDS_MEMBER['bot_group'] in user_group_names
@@ -111,7 +110,10 @@ class Profile(models.Model):
         Uses geo-localization to get physical localization of a profile through its last IP address.
         This works relatively good with IPv4 addresses (~city level), but is very imprecise with IPv6 or exotic internet
         providers.
+
         :return: The city and the country name of this profile.
+
+        :rtype: str
         """
         # FIXME: this test to differentiate IPv4 and IPv6 addresses doesn't work, as IPv6 addresses may have length < 16
         # Example: localhost ("::1"). Real test: IPv4 addresses contains dots, IPv6 addresses contains columns.
@@ -136,7 +138,9 @@ class Profile(models.Model):
         """Get the avatar URL for this profile.
         If the user has defined a custom URL, use it.
         If not, use Gravatar.
+
         :return: The avatar URL for this profile
+
         :rtype: str
         """
         if self.avatar_url:
@@ -150,6 +154,15 @@ class Profile(models.Model):
                 md5(self.user.email.lower().encode("utf-8")).hexdigest())
 
     def can_read_now(self):
+        """
+        Check if you can read a web site content as user.
+        If you can't read, you can't login on website.
+        This happens when you have been banned (temporarily or definitively)
+
+        :return: ``False`` if you are banned, ``True`` else.
+
+        :rtype: bool
+        """
         if self.user.is_authenticated:
             if self.user.is_active:
                 if self.end_ban_read:
@@ -161,6 +174,14 @@ class Profile(models.Model):
                 return False
 
     def can_write_now(self):
+        """
+        Check if you can write something on a web site as user.
+        This happens when you have been reading only (temporarily or definitively)
+
+        :return: ``False`` if you are read only, ``True`` else.
+
+        :rtype: bool
+        """
         if self.user.is_active:
             if self.end_ban_write:
                 return self.can_write or (self.end_ban_write < datetime.now())
@@ -227,19 +248,6 @@ class TokenRegister(models.Model):
         return u"{0} - {1}".format(self.user.username, self.date_end)
 
 
-# TODO: Seems unused
-def save_profile(backend, user, response, *args, **kwargs):
-    profile = Profile.objects.filter(user=user).first()
-    if profile is None:
-        profile = Profile(user=user,
-                          show_email=False,
-                          show_sign=True,
-                          hover_or_click=True,
-                          email_for_answer=False)
-        profile.last_ip_address = "0.0.0.0"
-        profile.save()
-
-
 class Ban(models.Model):
     """
     This model stores all sanctions (not only bans).
@@ -269,9 +277,11 @@ class KarmaNote(models.Model):
     """
     A karma note is a tool for staff to store data about a member.
     Data are:
+
     - A note (negative values are bad)
     - A comment about the member
     - A date
+
     This helps the staff to react and stores history of stupidities of a member.
     """
     class Meta:
@@ -294,6 +304,7 @@ class KarmaNote(models.Model):
 def logout_user(username):
     """
     Logout the member.
+
     :param username: the name of the user to logout.
     """
     now = datetime.now()

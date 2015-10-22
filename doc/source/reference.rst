@@ -1,19 +1,23 @@
-=====================
-Members (``member/``)
-=====================
+===============
+Django Back-end
+===============
 
-Module is in ``member/``.
+.. contents:: Documented files:
 
-.. contents:: Fichiers documentés :
+Models
+======
 
-Models (``models.py``)
-======================
-
-.. automodule::member.models
+.. automodule:: member.models
     :members:
 
-Views (``views.py``)
-====================
+Views
+=====
 
-.. automodule::member.views
+.. automodule:: member.views
+    :members:
+
+Forms
+=====
+
+.. automodule:: member.forms
     :members:

@@ -1,5 +1,8 @@
 /.tmp
 dist/*
+*.pickle
+python.rst
+c.txt
 
 #############
 ## Python

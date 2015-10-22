@@ -50,6 +50,8 @@ clean:
 	rm -rf $(BUILDDIR)/*
 
 html:
+	$(SPHINXBUILD) -b coverage source $(ALLSPHINXOPTS)
+	mv source/python.txt source/python.rst
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
