@@ -75,14 +75,6 @@ DEFAULTS = {
         # is specified here in seconds.
         'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 15
     },
-    "SWAGGER_SETTINGS": {
-        'enabled_methods': [
-            'get',
-            'post',
-            'put',
-            'delete'
-        ]
-    },
     "CORS_ORIGIN_ALLOW_ALL": True,
     "CORS_ALLOW_METHODS": [
         'GET',

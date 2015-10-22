@@ -15,7 +15,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework_swagger',
     'corsheaders',
     'oauth2_provider',
     'crispy_forms',
@@ -90,13 +89,4 @@ REST_FRAMEWORK_EXTENSIONS = {
     # If the cache isn't specify in the API, the time of the cache
     # is specified here in seconds.
     'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 15
-}
-
-SWAGGER_SETTINGS = {
-    'enabled_methods': [
-        'get',
-        'post',
-        'put',
-        'delete'
-    ]
 }

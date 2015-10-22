@@ -13,6 +13,8 @@ Summary
    :maxdepth: 2
 
    install
+   configure
+   usage
    features
    reference
    api

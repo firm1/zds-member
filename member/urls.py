@@ -41,7 +41,6 @@ urlpatterns = patterns('',
 
 # API
 urlpatterns += patterns('',
-                        url(r'^api-doc/', include('rest_framework_swagger.urls')),
                         url(r'^oauth2/', include('oauth2_provider.urls', namespace='oauth2_provider')),
                         url(r'^api/', include('member.api.urls')),
                         )
