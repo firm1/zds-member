@@ -251,7 +251,7 @@ class MemberTests(TestCase):
         new_prof = Profile.objects.get(pk=prof.pk)
         self.assertEqual(new_prof.user.email, "my-new-super-email@yahoor.fr")
 
-    def test_update_username_and_password(self):
+    def test_update_username_and_email(self):
         prof = ProfileFactory()
         login_check = self.client.login(
             username=prof.user.username,
@@ -268,6 +268,58 @@ class MemberTests(TestCase):
         new_prof = Profile.objects.get(pk=prof.pk)
         self.assertEqual(new_prof.user.username, "my-new-super-username")
         self.assertEqual(new_prof.user.email, "my-new-super-email@yahoor.fr")
+
+    def test_update_password(self):
+        prof = ProfileFactory()
+        login_check = self.client.login(
+            username=prof.user.username,
+            password='hostel77')
+        self.assertEqual(login_check, True)
+
+        # if confirm password is different, system doesn't change
+        result = self.client.post(
+            reverse('update-password-member'),
+            {'password_old': "hostel77",
+             'password_new': "bastia28",
+             "password_confirm": "bastia29"},
+            follow=True
+        )
+        self.assertEqual(result.status_code, 200)
+
+        login_check = self.client.login(
+            username=prof.user.username,
+            password='hostel77')
+        self.assertEqual(login_check, True)
+
+        # if old password is bad, system doesn't change
+        result = self.client.post(
+            reverse('update-password-member'),
+            {'password_old': "hostel78",
+             'password_new': "bastia28",
+             "password_confirm": "bastia28"},
+            follow=True
+        )
+        self.assertEqual(result.status_code, 200)
+
+        login_check = self.client.login(
+            username=prof.user.username,
+            password='hostel77')
+        self.assertEqual(login_check, True)
+
+        # if all is good, password change
+        result = self.client.post(
+            reverse('update-password-member'),
+            {'password_old': "hostel77",
+             'password_new': "bastia28",
+             "password_confirm": "bastia28"},
+            follow=True
+        )
+        self.assertEqual(result.status_code, 200)
+
+        login_check = self.client.login(
+            username=prof.user.username,
+            password='bastia28')
+        self.assertEqual(login_check, True)
 
     def test_profile_page_of_weird_member_username(self):
 
