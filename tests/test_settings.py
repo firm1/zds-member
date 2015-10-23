@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+
+import os
+from member.conf import get_base_dir
+from django.utils.translation import gettext_lazy as _
+
 DEBUG = True
 ROOT_URLCONF = 'member.urls'
 LOGIN_URL = '/connexion'
@@ -29,6 +35,7 @@ MIDDLEWARE_CLASSES = (
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     'django.middleware.csrf.CsrfViewMiddleware',
     "django.contrib.messages.middleware.MessageMiddleware",
+    'django.middleware.locale.LocaleMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -52,6 +59,17 @@ DATABASES = {
 
 SITE_ID = 1
 SECRET_KEY = "notasecret"
+
+LANGUAGE_CODE = "en"
+USE_I18N = True
+USE_L10N = True
+LOCALE_PATHS = (os.path.join(get_base_dir(), 'LOCALE'),)
+LANGUAGES = (
+    ('en', _('English')),
+    ('fr', _('French')),
+    ('es', _('Spanish')),
+)
+DEFAULT_LANGUAGE = 1
 
 REST_FRAMEWORK = {
     # If the pagination isn't specify in the API, its configuration is

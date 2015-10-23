@@ -230,14 +230,13 @@ class ReadingOnlySanction(MemberSanctionState):
     """
 
     def get_type(self):
-        return _(u"Lecture Seule")
+        return _(u"Read only")
 
     def get_text(self):
         return self.array_infos.get('ls-text', '')
 
     def get_detail(self):
-        return (_(u'vous ne pouvez plus poster dans les forums, ni dans les '
-                  u'commentaires d\'articles et de tutoriels.'))
+        return (_(u"You can't write on website "))
 
     def apply_sanction(self, profile, ban):
         profile.end_ban_write = None
@@ -252,15 +251,14 @@ class TemporaryReadingOnlySanction(MemberSanctionState):
     """
 
     def get_type(self):
-        return _(u"Lecture Seule Temporaire")
+        return _(u"Read only Temporary")
 
     def get_text(self):
         return self.array_infos.get('ls-text', '')
 
     def get_detail(self):
         jrs = int(self.array_infos.get("ls-jrs"))
-        return (_(u'vous ne pouvez plus poster dans les forums, ni dans les '
-                  u'commentaires d\'articles et de tutoriels pendant {0} jour{1}.')
+        return (_(u"You can't write on website during {0} day{1}")
                 .format(jrs, pluralize(jrs)))
 
     def apply_sanction(self, profile, ban):
@@ -277,7 +275,7 @@ class DeleteReadingOnlySanction(MemberSanctionState):
     """
 
     def get_type(self):
-        return _(u"Autorisation d'écrire")
+        return _(u"Permission to write")
 
     def get_text(self):
         return self.array_infos.get('unls-text', '')
@@ -299,13 +297,13 @@ class BanSanction(MemberSanctionState):
     """
 
     def get_type(self):
-        return _(u"Ban définitif")
+        return _(u"Ban definitive")
 
     def get_text(self):
         return self.array_infos.get('ban-text', '')
 
     def get_detail(self):
-        return _(u"vous ne pouvez plus vous connecter sur {0}.") \
+        return _(u"You can't log on {0}.") \
             .format(settings.APP_SITE['litteral_name'])
 
     def apply_sanction(self, profile, ban):
@@ -322,14 +320,14 @@ class TemporaryBanSanction(MemberSanctionState):
     """
 
     def get_type(self):
-        return _(u"Ban Temporaire")
+        return _(u"Ban Temporary")
 
     def get_text(self):
         return self.array_infos.get('ban-text', '')
 
     def get_detail(self):
         jrs = int(self.array_infos.get("ban-jrs"))
-        return (_(u'vous ne pouvez plus vous connecter sur {0} pendant {1} jour{2}.')
+        return (_(u"You can't log on {0} during {1} day{2}.")
                 .format(settings.APP_SITE['litteral_name'],
                         jrs,
                         pluralize(jrs)))
@@ -349,7 +347,7 @@ class DeleteBanSanction(MemberSanctionState):
     """
 
     def get_type(self):
-        return _(u"Autorisation de se connecter")
+        return _(u"Permission to log on")
 
     def get_text(self):
         return self.array_infos.get('unban-text', '')

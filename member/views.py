@@ -138,10 +138,10 @@ class UpdateMember(UpdateView):
         messages.success(self.request, self.get_success_message())
 
     def get_success_message(self):
-        return _(u'Le profil a correctement été mis à jour.')
+        return _(u'The profile has been updated.')
 
     def get_error_message(self):
-        return _(u'Une erreur est survenue.')
+        return _(u'An error has occurred.')
 
 
 class UpdatePasswordMember(UpdateMember):
@@ -164,7 +164,7 @@ class UpdatePasswordMember(UpdateMember):
         profile.user.set_password(form.data['password_new'])
 
     def get_success_message(self):
-        return _(u'Le mot de passe a correctement été mis à jour.')
+        return _(u'The password has been updated.')
 
     def get_success_url(self):
         return reverse('update-password-member')
@@ -319,7 +319,7 @@ def modify_profile(request, user_pk):
     if profile.is_private():
         raise PermissionDenied
     if request.user.profile == profile:
-        messages.error(request, _(u"Vous ne pouvez pas vous sanctionner vous-même !"))
+        messages.error(request, _(u"You can't punish yourself!"))
         raise PermissionDenied
 
     if 'ls' in request.POST:
@@ -383,10 +383,10 @@ def settings_mini_profile(request, user_name):
             try:
                 profile.save()
             except:
-                messages.error(request, u"Une erreur est survenue.")
+                messages.error(request, _(u"An error has occurred.")
                 return redirect(reverse("member.views.settings_mini_profile"))
 
-            messages.success(request, _(u"Le profil a correctement été mis à jour."))
+            messages.success(request, _(u"The profile has been updated."))
             return redirect(reverse("member-detail", args=[profile.user.username]))
         else:
             return render(request, "member/settings/profile.html", data)
@@ -436,18 +436,18 @@ def login_view(request):
                         return redirect("/")
                 else:
                     messages.error(request,
-                                   _(u"Vous n'êtes pas autorisé à vous connecter "
-                                     u"sur le site, vous avez été banni par un "
-                                     u"modérateur."))
+                                   _(u"You aren't allowed to connect "
+                                     u"to the site, you have been banned by "
+                                     u"a moderator."))
             else:
                 messages.error(request,
-                               _(u"Vous n'avez pas encore activé votre compte, "
-                                 u"vous devez le faire pour pouvoir vous "
-                                 u"connecter sur le site. Regardez dans vos "
-                                 u"mails : {}.").format(user.email))
+                               _(u"You haven't activated your account, "
+                                 u"you must do this before you can "
+                                 u"log on the website. Look in your "
+                                 u"mail : {}.").format(user.email))
         else:
             messages.error(request,
-                           _(u"Les identifiants fournis ne sont pas valides."))
+                           _(u"The information provided is not valid."))
 
     if next_page is not None:
         form = LoginForm()
@@ -649,7 +649,7 @@ def generate_token_account(request):
     token.save()
 
     # send email
-    subject = _(u"{} - Confirmation d'inscription").format(settings.APP_SITE['litteral_name'])
+    subject = _(u"{} - Registration confirmation").format(settings.APP_SITE['litteral_name'])
     from_email = "{} <{}>".format(settings.APP_SITE['litteral_name'],
                                   settings.APP_SITE['email_noreply'])
     current_site = Site.objects.get_current()
@@ -706,39 +706,39 @@ def settings_promote(request, user_pk):
                 if str(group.id) in data['groups']:
                     if group not in usergroups:
                         user.groups.add(group)
-                        messages.success(request, _(u'{0} appartient maintenant au groupe {1}.')
+                        messages.success(request, _(u'{0} now belongs to the group {1}.')
                                          .format(user.username, group.name))
                 else:
                     if group in usergroups:
                         user.groups.remove(group)
-                        messages.warning(request, _(u'{0} n\'appartient maintenant plus au groupe {1}.')
+                        messages.warning(request, _(u'{0} now no longer belongs to the group {1}.')
                                          .format(user.username, group.name))
         else:
             user.groups.clear()
-            messages.warning(request, _(u'{0} n\'appartient (plus ?) à aucun groupe.')
+            messages.warning(request, _(u'{0} not now belong to any group.')
                              .format(user.username))
 
         if 'superuser' in data and u'on' in data['superuser']:
             if not user.is_superuser:
                 user.is_superuser = True
-                messages.success(request, _(u'{0} est maintenant super-utilisateur.')
+                messages.success(request, _(u'{0} is now superuser.')
                                  .format(user.username))
         else:
             if user == request.user:
-                messages.error(request, _(u'Un super-utilisateur ne peut pas se retirer des super-utilisateurs.'))
+                messages.error(request, _(u"A superuser can't to retire from super-users."))
             else:
                 if user.is_superuser:
                     user.is_superuser = False
-                    messages.warning(request, _(u'{0} n\'est maintenant plus super-utilisateur.')
+                    messages.warning(request, _(u'{0} is no longer superuser.')
                                      .format(user.username))
 
         if 'activation' in data and u'on' in data['activation']:
             user.is_active = True
-            messages.success(request, _(u'{0} est maintenant activé.')
+            messages.success(request, _(u'{0} is now activated.')
                              .format(user.username))
         else:
             user.is_active = False
-            messages.warning(request, _(u'{0} est désactivé.')
+            messages.warning(request, _(u'{0} is now deactivated.')
                              .format(user.username))
 
         user.save()
