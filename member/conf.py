@@ -3,7 +3,6 @@
 import os
 from django.utils.http import urlquote
 from django.conf import settings as _settings  # noqa
-from django.utils.translation import gettext_lazy as _
 
 
 def get_base_dir():

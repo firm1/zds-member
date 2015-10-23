@@ -20,7 +20,7 @@ session = PipSession()
 
 setup(
     name='zds-member',
-    version='0.1.1',
+    version='0.1.2',
     packages=['member'],
     include_package_data=True,
     license='GPLv3',
@@ -28,8 +28,10 @@ setup(
     long_description=README,
     url='https://github.com/firm1/zds-member',
     classifiers=[
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
-        'Framework :: Django',
+        'Framework :: Django :: 1.7',
+        'Framework :: Django :: 1.8',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Operating System :: OS Independent',

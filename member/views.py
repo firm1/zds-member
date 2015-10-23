@@ -383,7 +383,7 @@ def settings_mini_profile(request, user_name):
             try:
                 profile.save()
             except:
-                messages.error(request, _(u"An error has occurred.")
+                messages.error(request, _(u"An error has occurred."))
                 return redirect(reverse("member.views.settings_mini_profile"))
 
             messages.success(request, _(u"The profile has been updated."))
