@@ -17,10 +17,12 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 session = PipSession()
+reqs = [str(pkg.req) for pkg in parse_requirements('requirements.txt', session=session)]
+reqs.append("pygeoip")
 
 setup(
     name='zds-member',
-    version='0.1.2',
+    version='0.1.5',
     packages=['member'],
     include_package_data=True,
     license='GPLv3',
@@ -42,6 +44,6 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     test_suite="runtests.runtests",
-    install_requires=[str(pkg.req) for pkg in parse_requirements('requirements-dev.txt', session=session)],
+    install_requires=[reqs],
     tests_require=[str(pkg.req) for pkg in parse_requirements('requirements-dev.txt', session=session)],
 )
